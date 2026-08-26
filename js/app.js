@@ -227,17 +227,51 @@
       const empty = el('div', 'empty');
       empty.textContent = 'Nothing matches those filters. Try widening the distance, or tick a few more source types.';
       els.results.appendChild(empty);
-      els.resultCount.textContent = '';
+      els.resultCount.textContent = 'No sources match those filters.';
       return;
     }
 
     els.resultCount.textContent = parsed.isEmpty
-      ? `${ranked.length} sources, ranked by catalogue depth — type a part to re-rank them`
-      : `${ranked.length} sources, best match first`;
+      ? `Showing all ${ranked.length} sources, deepest catalogues first. Type a part above to rank them by match.`
+      : `Found ${ranked.length} places to look for “${parsed.raw}” — best match first, below.`;
 
     const frag = document.createDocumentFragment();
     ranked.forEach((entry) => frag.appendChild(renderResult(entry, term, opts.preferGoogle, !parsed.isEmpty)));
     els.results.appendChild(frag);
+  }
+
+  /* Results sit below the search panel, so on a laptop screen a search can
+   * update entirely off-screen and look like nothing happened. Bring them up —
+   * but only when they aren't already visible, so adjusting a filter doesn't
+   * yank the page around under you. */
+  function revealResults() {
+    const heading = document.getElementById('resultsHeading');
+    if (!heading) return;
+
+    const top = heading.getBoundingClientRect().top;
+    const alreadyVisible = top >= 0 && top < window.innerHeight - 80;
+    if (alreadyVisible) return;
+
+    const scroller = document.scrollingElement || document.documentElement;
+    const startedAt = scroller.scrollTop;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    heading.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    if (reduceMotion) return;
+
+    /* Smooth scrolling is silently a no-op in some browsers and under some
+     * accessibility settings. Getting the user to the results matters more
+     * than the animation, so if nothing has moved shortly after, jump. */
+    setTimeout(() => {
+      if (Math.abs(scroller.scrollTop - startedAt) < 2) {
+        heading.scrollIntoView({ block: 'start' });
+      }
+    }, 250);
+  }
+
+  function search() {
+    run();
+    revealResults();
   }
 
   /* Expose for the photo panel, which fills the box then re-runs the search. */
@@ -245,8 +279,7 @@
     run,
     setQuery(text) {
       els.q.value = text;
-      run();
-      els.results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      search();
     },
   };
 
@@ -254,7 +287,7 @@
 
   els.form.addEventListener('submit', (e) => {
     e.preventDefault();
-    run();
+    search();
   });
 
   /* Belt and braces: Enter in the box searches even if the form's own submit
@@ -262,14 +295,14 @@
   els.q.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      run();
+      search();
     }
   });
 
   document.querySelectorAll('[data-example]').forEach((btn) => {
     btn.addEventListener('click', () => {
       els.q.value = btn.dataset.example;
-      run();
+      search();
     });
   });
 

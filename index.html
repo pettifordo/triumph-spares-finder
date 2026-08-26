@@ -83,11 +83,14 @@
       <label><input type="checkbox" id="collectionOnly"> Only places I could collect from</label>
       <label><input type="checkbox" id="preferGoogle"> Always search via Google (most reliable)</label>
     </div>
+
+    <div id="readback" class="readback" hidden></div>
+    <p class="result-summary" id="resultCount" aria-live="polite"></p>
   </section>
 
   <!-- ----------------------------------------------------------- photo -->
-  <section class="panel" aria-labelledby="photoHeading">
-    <h2 id="photoHeading" style="margin:0 0 14px;font-size:17px;font-weight:650;">Got a photo instead?</h2>
+  <details class="panel photo-details" id="photoPanel">
+    <summary>Got a photo of the part instead?</summary>
     <div class="photo-panel">
       <div class="dropzone" id="dropzone" tabindex="0" role="button"
            aria-label="Add a photo of the part">
@@ -107,15 +110,13 @@
       </div>
     </div>
     <input type="file" id="fileInput" accept="image/*" class="sr-only">
-  </section>
+  </details>
 
   <!-- --------------------------------------------------------- results -->
-  <div id="readback" class="readback" hidden></div>
   <div id="warnings"></div>
 
   <div class="results-head">
-    <h2>Where to look</h2>
-    <span class="count" id="resultCount"></span>
+    <h2 id="resultsHeading" tabindex="-1">Where to look</h2>
   </div>
   <div id="results"></div>
 

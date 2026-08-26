@@ -273,17 +273,56 @@ button.ghost[aria-pressed="true"] {
 }
 .hint.warn { background: var(--warn-soft); border-left-color: var(--warn); color: var(--ink); }
 
+/* The count doubles as click feedback, so it has to be visible next to the
+ * button rather than up against the result list. */
+.result-summary {
+  margin: 14px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--ink-2);
+}
+.result-summary:empty { display: none; }
+
+/* ---------------------------------------------------- photo (collapsible) */
+
+details.photo-details { padding: 0; }
+details.photo-details > summary {
+  padding: 16px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  color: var(--ink);
+  border-radius: var(--radius);
+}
+details.photo-details > summary::-webkit-details-marker { display: none; }
+details.photo-details > summary::before {
+  content: "▸";
+  display: inline-block;
+  width: 1em;
+  color: var(--ink-3);
+}
+details.photo-details[open] > summary::before { content: "▾"; }
+details.photo-details > summary:hover { color: var(--accent); }
+details.photo-details[open] > summary { border-bottom: 1px solid var(--line); }
+details.photo-details > .photo-panel { padding: 18px 20px 20px; }
+
 /* ------------------------------------------------------------ read-back */
 
 .readback {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   align-items: center;
   font-size: 13px;
   color: var(--ink-2);
-  margin-bottom: 16px;
 }
+/* When chips are showing, the summary line below them doesn't need its own rule. */
+.readback:not([hidden]) + .result-summary { border-top: 0; padding-top: 8px; margin-top: 0; }
 
 .chip {
   display: inline-flex;
@@ -310,6 +349,7 @@ button.ghost[aria-pressed="true"] {
   margin: 28px 0 14px;
 }
 .results-head h2 { margin: 0; font-size: 17px; font-weight: 650; }
+.results-head h2:focus { outline: none; }
 .results-head .count { color: var(--ink-3); font-size: 14px; }
 
 .result {
