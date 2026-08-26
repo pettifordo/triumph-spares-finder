@@ -1,0 +1,16 @@
+{
+  "name": "triumph-spares-finder",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Search UK (and worldwide) Triumph car spares suppliers by part number, description or photo, ranked by how closely each supplier matches.",
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 8765",
+    "check-links": "node scripts/check-links.mjs",
+    "check-data": "node scripts/check-data.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.71.0",
+    "zod": "^3.24.1"
+  }
+}

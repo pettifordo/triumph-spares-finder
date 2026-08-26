@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Triumph Spares Finder</title>
+<meta name="description" content="Find Triumph car spares across UK specialists, clubs, breakers and marketplaces — search by part number, description or photo, ranked by how closely each source matches.">
+<link rel="stylesheet" href="assets/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='13' font-size='13'>🔧</text></svg>">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <h1>Triumph Spares Finder</h1>
+    <p class="tagline">Where to look for parts, ranked by how well each source matches</p>
+    <button class="theme-toggle" id="themeToggle" type="button">Theme</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ---------------------------------------------------------- search -->
+  <section class="panel" aria-labelledby="searchHeading">
+    <h2 id="searchHeading" class="sr-only">Search</h2>
+    <form class="searchbar" id="searchForm" role="search">
+      <label class="sr-only" for="q">Part number or description</label>
+      <input type="search" id="q" name="q" autocomplete="off" spellcheck="false"
+             placeholder="Part number, or describe the part — e.g. “TR6 front trunnion” or “218131”">
+      <button class="primary" type="submit">Search</button>
+    </form>
+
+    <p class="examples">
+      <span>Try:</span>
+      <button type="button" data-example="TR6 front suspension trunnion">TR6 trunnion</button>
+      <button type="button" data-example="Spitfire 1500 rear hood seal">Spitfire hood seal</button>
+      <button type="button" data-example="Stag cylinder head gasket set">Stag head gasket</button>
+      <button type="button" data-example="Dolomite Sprint used cylinder head">Used Sprint head</button>
+      <button type="button" data-example="GT6 walnut dashboard veneer">GT6 dash veneer</button>
+    </p>
+
+    <div class="filters">
+      <div class="field">
+        <label for="postcode">Your postcode</label>
+        <input type="text" id="postcode" placeholder="e.g. YO62" autocomplete="postal-code" maxlength="8">
+      </div>
+      <div class="field">
+        <label for="region">…or region</label>
+        <select id="region"><option value="">Anywhere in the UK</option></select>
+      </div>
+      <div class="field">
+        <label for="radius">Distance</label>
+        <select id="radius">
+          <option value="0">Doesn’t matter — I’ll post</option>
+          <option value="25">Within 25 miles</option>
+          <option value="50">Within 50 miles</option>
+          <option value="100">Within 100 miles</option>
+          <option value="200">Within 200 miles</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="condition">Condition</label>
+        <select id="condition">
+          <option value="">Any</option>
+          <option value="new">New / reproduction</option>
+          <option value="nos">NOS / genuine original</option>
+          <option value="used">Used / breaking</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="checkrow" id="typeFilters">
+      <label><input type="checkbox" value="specialist" checked> Specialists</label>
+      <label><input type="checkbox" value="performance" checked> Performance</label>
+      <label><input type="checkbox" value="trim" checked> Trim &amp; upholstery</label>
+      <label><input type="checkbox" value="club" checked> Clubs</label>
+      <label><input type="checkbox" value="breaker" checked> Breakers &amp; used</label>
+      <label><input type="checkbox" value="marketplace" checked> Marketplaces</label>
+    </div>
+
+    <div class="checkrow">
+      <label><input type="checkbox" id="international"> Include suppliers outside the UK</label>
+      <label><input type="checkbox" id="collectionOnly"> Only places I could collect from</label>
+      <label><input type="checkbox" id="preferGoogle"> Always search via Google (most reliable)</label>
+    </div>
+  </section>
+
+  <!-- ----------------------------------------------------------- photo -->
+  <section class="panel" aria-labelledby="photoHeading">
+    <h2 id="photoHeading" style="margin:0 0 14px;font-size:17px;font-weight:650;">Got a photo instead?</h2>
+    <div class="photo-panel">
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Add a photo of the part">
+        <span id="dropzoneText">Drop a photo here, or click to choose one</span>
+      </div>
+      <div>
+        <p class="hint" id="photoHint">
+          If the part identifier is switched on, the photo is read and turned into a
+          search — model, area of the car and likely part name. Otherwise you can send it
+          to a reverse-image search and copy back what it finds.
+        </p>
+        <div class="photo-actions">
+          <button class="primary" type="button" id="identifyBtn" disabled>Identify this part</button>
+          <button class="ghost" type="button" id="clearPhotoBtn" disabled>Remove photo</button>
+        </div>
+        <div id="reverseSearches" class="photo-actions"></div>
+      </div>
+    </div>
+    <input type="file" id="fileInput" accept="image/*" class="sr-only">
+  </section>
+
+  <!-- --------------------------------------------------------- results -->
+  <div id="readback" class="readback" hidden></div>
+  <div id="warnings"></div>
+
+  <div class="results-head">
+    <h2>Where to look</h2>
+    <span class="count" id="resultCount"></span>
+  </div>
+  <div id="results"></div>
+
+  <footer class="site">
+    <p><strong>How the ranking works.</strong> Each source is scored on the model it covers,
+      the kind of part it stocks, whether it deals in your part-number format, how far away it is,
+      the condition of parts it sells, and how deep its catalogue is. Open “Why this ranking” on any
+      result to see the full breakdown.</p>
+    <p><strong>A caveat worth reading.</strong> This is a curated directory, not a live stock feed —
+      it tells you where to look, it can’t tell you what’s on the shelf. Where a shop’s own search
+      URL hasn’t been confirmed, the link falls back to a Google search scoped to that site, which
+      always works. Run <code>npm run check-links</code> to spot entries that have gone stale.</p>
+  </footer>
+</main>
+
+<script src="data/knowledge.js"></script>
+<script src="data/suppliers.js"></script>
+<script src="js/search.js"></script>
+<script src="js/photo.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
