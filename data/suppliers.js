@@ -29,7 +29,7 @@ const SUPPLIERS = [
     type: 'specialist', nationwide: true, collection: true,
     models: ['*'], categories: ['*'],
     stockTypes: ['new', 'repro', 'nos'],
-    oeCrossReference: true, breadth: 5,
+    oeCrossReference: true, breadth: 5, group: 'moss-rimmer',
     notes: 'The largest UK Triumph catalogue — first stop for most new and reproduction parts, across every model.',
   },
   {
@@ -42,7 +42,7 @@ const SUPPLIERS = [
     models: ['tr2', 'tr3', 'tr4', 'tr5', 'tr6', 'tr7', 'tr8', 'spitfire', 'gt6', 'herald', 'vitesse', 'stag'],
     categories: ['*'],
     stockTypes: ['new', 'repro'],
-    oeCrossReference: true, breadth: 5,
+    oeCrossReference: true, breadth: 5, group: 'moss-rimmer',
     notes: 'Big sports-car catalogue with trade counters at several branches — handy if you want to collect.',
   },
   {
@@ -230,6 +230,22 @@ const SUPPLIERS = [
     notes: 'Classic electrics, lighting, instruments and wiring — strong on Lucas-pattern items.',
   },
   {
+    id: 'ang-classic',
+    name: 'ANG Classic Car Parts',
+    url: 'https://www.angclassiccarparts.co.uk/',
+    search: { template: null, verified: false },
+    town: 'Sherwood, Nottingham', country: 'GB', coords: [52.99, -1.15],
+    type: 'specialist', nationwide: true, collection: true,
+    models: ['spitfire', 'gt6', 'stag', 'dolomite', 'herald', 'vitesse', 'toledo', '1300',
+             '2000', 'tr2', 'tr3', 'tr4', 'tr5', 'tr6', 'tr7', 'tr8'],
+    categories: ['*'],
+    stockTypes: ['new', 'repro', 'nos', 'used'],
+    oeCrossReference: true, breadth: 4,
+    notes: 'Family-run Nottingham supplier covering the whole 1959–81 Triumph range, new and used. A good hunting ground for parts the big catalogues have dropped. Collection by prior arrangement.',
+  },
+
+  /* ----------------------------------------------------------- UK: clubs */
+  {
     id: 'tssc',
     name: 'Triumph Sports Six Club (TSSC)',
     url: 'https://www.tssc.org.uk/',
@@ -365,7 +381,7 @@ const SUPPLIERS = [
     models: ['tr2', 'tr3', 'tr4', 'tr5', 'tr6', 'tr7', 'tr8', 'spitfire', 'gt6', 'herald', 'vitesse', 'stag'],
     categories: ['*'],
     stockTypes: ['new', 'repro'],
-    oeCrossReference: true, breadth: 5,
+    oeCrossReference: true, breadth: 5, group: 'moss-rimmer',
     notes: 'Large US catalogue. Worth checking when a UK supplier is out of stock — mind duty and shipping.',
   },
   {

@@ -7,6 +7,12 @@ closely they match, and links you straight into each one's search.
 It is a **directory with a ranking engine**, not a stock feed. It tells you where
 to look and why. It cannot tell you what is on the shelf today.
 
+**Common ownership is flagged.** Moss Europe, Moss Motors and Rimmer Bros are owned
+by the same group (Radial Equity Partners) and trade as a partnership, keeping
+separate sites, catalogues, stock and pricing. Results from all three carry a "Moss /
+Rimmer group" badge, because "try the other one" is weaker advice than it looks when
+both belong to the same owner.
+
 Covers Triumph **cars**, 1946–1984: TR2–TR8, Spitfire, GT6, Herald, Vitesse, Stag,
 Dolomite, Toledo, the 2000/2500 saloons, the front-wheel-drive 1300/1500, Acclaim,
 Mayflower, Renown and Roadster. Triumph motorcycles are out of scope, and the site
@@ -65,7 +71,7 @@ everyone for a distance you never asked about.
 | Distance from you | 18 | Straight-line miles to the town. Mail-order-only suppliers aren't punished for having no shopfront. |
 | Right condition of part | 12 | New, reproduction, NOS or used. |
 | Standard vs competition parts | 15 | A race-parts house shouldn't top the list for a standard trunnion — unless you asked for uprated. |
-| Catalogue depth | 10 | Tie-breaker. |
+| Catalogue depth | 10 | Tie-breaker. A hand-assigned 1–5 judgement — see the note below. |
 
 Every result carries a **"Why this ranking"** panel showing the full breakdown. If a
 result looks wrong, that panel tells you which signal — and therefore which line in
@@ -79,8 +85,16 @@ Two data files, no logic in either:
 
 - **`data/suppliers.js`** — the suppliers. Add, remove or re-tag them here.
 - **`data/knowledge.js`** — models and their synonyms, part categories and their
-  keywords, part-number formats, postcode-area coordinates, and the terms that mean
-  "I want the competition part".
+  keywords, part-number formats, postcode-area coordinates, supplier groups, and the
+  terms that mean "I want the competition part".
+
+**`breadth` is the softest field in the data.** It is a 1–5 judgement about how deep a
+supplier's catalogue is, it is worth up to 10 points directly and it also scales how
+much credit a "covers everything" supplier gets for a category. There is no objective
+source for it — it reflects an opinion, and a wrong guess can push a good local
+supplier below a distant one. If a supplier you actually use is ranking too low, this
+is usually the field to change first. Compare it against similar suppliers already in
+the file rather than setting it in isolation.
 
 Adding a keyword to a category, or a synonym to a model, changes the ranking
 straight away. No code changes needed.

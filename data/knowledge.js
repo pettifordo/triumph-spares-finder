@@ -102,6 +102,19 @@ const CONDITION_TERMS = {
   used: ['used', 'second hand', 'secondhand', 'breaking', 'breaker', 'salvage', 'donor', 'scrap'],
 };
 
+/* Suppliers under common ownership. Worth surfacing, because "if one is out of
+ * stock, try the other" is weaker advice when both belong to the same group. */
+const SUPPLIER_GROUPS = {
+  'moss-rimmer': {
+    label: 'Moss / Rimmer group',
+    note:
+      'Moss Europe, Moss Motors and Rimmer Bros are under common ownership (Radial Equity ' +
+      'Partners) and trade as a partnership. They still run separate websites, catalogues, ' +
+      'stock and pricing, so checking both is still worth doing — but treat them as one ' +
+      'group rather than two independent opinions.',
+  },
+};
+
 /* Words that mean "I don't want the standard part". Without one of these, a
  * competition-parts house should sit below the general catalogues, however
  * precisely it matches the category. */

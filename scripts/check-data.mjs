@@ -14,8 +14,8 @@ const context = vm.createContext({});
 for (const file of ['data/knowledge.js', 'data/suppliers.js']) {
   vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), context, { filename: file });
 }
-const { SUPPLIERS, TRIUMPH_MODELS, PART_CATEGORIES } = vm.runInContext(
-  '({ SUPPLIERS, TRIUMPH_MODELS, PART_CATEGORIES })',
+const { SUPPLIERS, TRIUMPH_MODELS, PART_CATEGORIES, SUPPLIER_GROUPS } = vm.runInContext(
+  '({ SUPPLIERS, TRIUMPH_MODELS, PART_CATEGORIES, SUPPLIER_GROUPS })',
   context
 );
 
@@ -53,6 +53,10 @@ for (const s of SUPPLIERS) {
     if (!validStock.has(st)) errors.push(`${where}: unknown stock type "${st}"`);
   }
 
+  if (s.group && !SUPPLIER_GROUPS[s.group]) {
+    errors.push(`${where}: unknown supplier group "${s.group}"`);
+  }
+
   if (!(s.breadth >= 1 && s.breadth <= 5)) errors.push(`${where}: breadth must be 1–5, got ${s.breadth}`);
 
   if (s.coords) {
@@ -74,6 +78,13 @@ for (const s of SUPPLIERS) {
 
 const unverified = SUPPLIERS.filter((s) => s.search?.template && !s.search.verified).length;
 const noTemplate = SUPPLIERS.filter((s) => !s.search?.template).length;
+
+for (const [id, g] of Object.entries(SUPPLIER_GROUPS)) {
+  const members = SUPPLIERS.filter((s) => s.group === id);
+  if (members.length < 2) {
+    warnings.push(`group "${id}" has ${members.length} member(s) — a group of one tells the reader nothing`);
+  }
+}
 
 console.log(`Checked ${SUPPLIERS.length} suppliers.`);
 console.log(`  ${SUPPLIERS.length - unverified - noTemplate} use a verified site search`);

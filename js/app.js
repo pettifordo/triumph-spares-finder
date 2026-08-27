@@ -156,6 +156,10 @@
 
     const reasonRow = el('div', 'reasons');
     reasons.slice(0, 5).forEach((r) => reasonRow.appendChild(el('span', 'reason', r)));
+    /* Common ownership is worth knowing before you treat two hits as two
+     * independent places to try. */
+    const group = supplier.group && SUPPLIER_GROUPS[supplier.group];
+    if (group) reasonRow.appendChild(el('span', 'reason group', group.label));
     card.appendChild(reasonRow);
 
     /* Actions: search their site (or Google-scoped), plus their front page. */
@@ -200,6 +204,7 @@
       table.appendChild(tr);
     });
     details.appendChild(table);
+    if (group) details.appendChild(el('p', 'meta', group.note));
     if (distance !== null) {
       details.appendChild(el('p', 'meta', `Roughly ${distance} miles from ${'you'} — measured to the town centre, so treat it as a guide.`));
     }
