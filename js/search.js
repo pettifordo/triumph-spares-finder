@@ -202,9 +202,11 @@ function categoryScore(supplier, parsed) {
     let s;
     if (supplier.categories.includes(c.id)) s = 1;
     /* A generalist covers the category too — how well depends on how deep the
-     * catalogue is. A five-star catalogue is nearly as good as a specialist;
-     * a thin one is not. */
-    else if (supplier.categories.includes('*')) s = 0.6 + 0.06 * supplier.breadth;
+     * catalogue is. Kept a gentle slope on purpose: breadth already has its own
+     * signal below, so leaning on it hard here counts the same fact twice and
+     * pushes narrow-but-deep specialists below broad catalogues that are worse
+     * bets for the actual part. */
+    else if (supplier.categories.includes('*')) s = 0.7 + 0.04 * supplier.breadth;
     else s = 0.2;
     best = Math.max(best, s);
   }

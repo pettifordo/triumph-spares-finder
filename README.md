@@ -89,10 +89,12 @@ Two data files, no logic in either:
   terms that mean "I want the competition part".
 
 **`breadth` is the softest field in the data.** It is a 1–5 judgement about how deep a
-supplier's catalogue is, it is worth up to 10 points directly and it also scales how
-much credit a "covers everything" supplier gets for a category. There is no objective
-source for it — it reflects an opinion, and a wrong guess can push a good local
-supplier below a distant one. If a supplier you actually use is ranking too low, this
+supplier's catalogue is, worth up to 10 points directly and also gently scaling how
+much credit a "covers everything" supplier gets for a category. That scaling is
+deliberately gentle: leaning on it counts the same fact twice, and pushes a
+narrow-but-deep specialist below a broad catalogue that is a worse bet for the actual
+part. There is no objective source for breadth — it reflects an opinion, and a wrong
+guess can push a good local supplier below a distant one. If a supplier you actually use is ranking too low, this
 is usually the field to change first. Compare it against similar suppliers already in
 the file rather than setting it in isolation.
 

@@ -244,6 +244,21 @@ const SUPPLIERS = [
     notes: 'Family-run Nottingham supplier covering the whole 1959–81 Triumph range, new and used. A good hunting ground for parts the big catalogues have dropped. Collection by prior arrangement.',
   },
 
+  {
+    id: 'spitbitz',
+    name: 'SpitBitz',
+    /* Bare domain only — the www. host returns a 500. */
+    url: 'https://spitbitz.co.uk/',
+    search: { template: null, verified: false },
+    town: 'Wokingham, Berkshire', country: 'GB', coords: [51.41, -0.83],
+    type: 'breaker', nationwide: true, collection: false,
+    models: ['spitfire', 'gt6', 'vitesse', 'herald'],
+    categories: ['*'],
+    stockTypes: ['used', 'nos', 'new'],
+    oeCrossReference: false, breadth: 4,
+    notes: 'Family-run yard with one of the largest selections of used Spitfire, GT6, Vitesse and Herald spares in the UK — anything from a wheel nut to a complete body shell, plus some new hoods and trim. Ring about collection; the site does not mention it.',
+  },
+
   /* ----------------------------------------------------------- UK: clubs */
   {
     id: 'tssc',
