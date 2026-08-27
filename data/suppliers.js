@@ -322,18 +322,6 @@ const SUPPLIERS = [
     notes: 'Biggest pool of used and NOS parts. Searching the factory part number here works better than a description.',
   },
   {
-    id: 'car-and-classic',
-    name: 'Car & Classic',
-    url: 'https://www.carandclassic.com/',
-    search: { template: null, verified: false },
-    town: 'Online', country: 'GB', coords: null,
-    type: 'marketplace', nationwide: true, collection: false,
-    models: ['*'], categories: ['*'],
-    stockTypes: ['nos', 'used'],
-    oeCrossReference: false, breadth: 3,
-    notes: 'Classic car marketplace with a parts and memorabilia section, plus whole donor cars.',
-  },
-  {
     id: 'gumtree',
     name: 'Gumtree',
     url: 'https://www.gumtree.com/',
