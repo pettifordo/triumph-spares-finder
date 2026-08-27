@@ -384,6 +384,17 @@ function googleSiteSearch(supplier, term) {
 function buildSearchUrl(supplier, term, preferGoogle) {
   const t = (term || '').trim();
   if (!t) return { url: supplier.url, via: 'home' };
+
+  /* Some suppliers have no searchable site at all — you ring them. Where they
+   * run an eBay shop, scoping a search to that seller is the one way to look
+   * through their stock without picking up the phone. */
+  if (supplier.ebaySeller) {
+    const url = `https://www.ebay.co.uk/sch/i.html?_nkw=${encodeURIComponent(t)}&_ssn=${encodeURIComponent(supplier.ebaySeller)}`;
+    return { url, via: 'ebay-seller' };
+  }
+  if (supplier.searchable === false) {
+    return { url: supplier.url, via: 'no-search' };
+  }
   const tpl = supplier.search && supplier.search.template;
   const verified = supplier.search && supplier.search.verified;
   if (!preferGoogle && tpl && verified) {
@@ -393,6 +404,21 @@ function buildSearchUrl(supplier, term, preferGoogle) {
     return { url: googleSiteSearch(supplier, t), via: 'google-unverified' };
   }
   return { url: googleSiteSearch(supplier, t), via: 'google' };
+}
+
+/* Phone and email links for suppliers you have to contact directly. Returns an
+ * empty list for everyone else, so the UI can just spread it in. */
+function contactLinks(supplier) {
+  const c = supplier.contact;
+  if (!c) return [];
+  const out = [];
+  if (c.phone) {
+    out.push({ label: c.phone, href: `tel:${c.phone.replace(/[^+\d]/g, '')}`, kind: 'phone' });
+  }
+  if (c.email) {
+    out.push({ label: 'Email them', href: `mailto:${c.email}`, kind: 'email' });
+  }
+  return out;
 }
 
 /* Reverse-image search entry points, used by the photo panel when no vision

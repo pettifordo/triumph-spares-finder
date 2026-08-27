@@ -12,6 +12,12 @@
  *
  * coords — [lat, lon], approximate town centre. Used for distance ranking only.
  * breadth — 1 (single niche) to 5 (near-complete catalogue). Tie-breaker.
+ * searchable — set false when the site has no parts search or catalogue. The card
+ *   then offers phone and email instead of a search link that would go nowhere.
+ * contact — { phone, email } for those suppliers. Shown as tel: and mailto: links.
+ * ebaySeller — an eBay shop name. Gives a searchable route into a supplier whose
+ *   own site has no search, by scoping an eBay search to that seller.
+ *
  * models — model ids from knowledge.js, or ['*'] for "covers everything".
  * categories — category ids from knowledge.js, or ['*'] for generalists.
  *   A generalist scores slightly BELOW a specialist for that specialist's
@@ -257,6 +263,30 @@ const SUPPLIERS = [
     stockTypes: ['used', 'nos', 'new'],
     oeCrossReference: false, breadth: 4,
     notes: 'Family-run yard with one of the largest selections of used Spitfire, GT6, Vitesse and Herald spares in the UK — anything from a wheel nut to a complete body shell, plus some new hoods and trim. Ring about collection; the site does not mention it.',
+  },
+
+  {
+    id: 'spitfire-graveyard',
+    name: 'Spitfire Graveyard',
+    /* HTTP only — their HTTPS certificate has expired. */
+    url: 'http://spitfiregraveyard.com/',
+    /* No catalogue or search on the site: you ring or email with what you need.
+     * Their eBay shop is the one searchable way in. */
+    searchable: false,
+    contact: { phone: '0114 232 3077', email: 'spitfiregraveyard@hotmail.com' },
+    ebaySeller: 'spitfiregraveyard',
+    search: { template: null, verified: false },
+    town: 'North Sheffield', country: 'GB', coords: [53.41, -1.47],
+    type: 'breaker', nationwide: true, collection: true,
+    /* They describe themselves as Triumph specialists who also carry other
+     * makes, so the Triumph range is listed explicitly rather than using '*',
+     * which here would read as "any make" and understate the Triumph match. */
+    models: ['spitfire', 'gt6', 'herald', 'vitesse', 'stag', 'dolomite', 'toledo',
+             '1300', '2000', 'tr4', 'tr5', 'tr6', 'tr7'],
+    categories: ['*'],
+    stockTypes: ['used', 'nos'],
+    oeCrossReference: false, breadth: 3,
+    notes: 'Long-standing Sheffield yard breaking Triumphs for spares. There is no catalogue to search — you ring or email describing the part you need, which is how a lot of the used trade still works. Their eBay shop is the searchable way in.',
   },
 
   /* ----------------------------------------------------------- UK: clubs */

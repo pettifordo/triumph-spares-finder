@@ -70,6 +70,16 @@ for (const s of SUPPLIERS) {
     warnings.push(`${where}: marked as collectable but has no coordinates, so distance ranking will skip it`);
   }
 
+  if (s.searchable === false && !s.contact && !s.ebaySeller) {
+    errors.push(`${where}: searchable:false with no contact details and no ebaySeller — the card would be a dead end`);
+  }
+  if (s.contact && !s.contact.phone && !s.contact.email) {
+    errors.push(`${where}: contact block has neither phone nor email`);
+  }
+  if (s.contact?.email && !s.contact.email.includes('@')) {
+    errors.push(`${where}: "${s.contact.email}" is not an email address`);
+  }
+
   if (s.search?.verified && !s.search.template) errors.push(`${where}: verified:true with no template`);
   if (s.search?.template && !s.search.template.includes('{q}')) {
     errors.push(`${where}: search template has no {q} placeholder`);

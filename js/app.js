@@ -165,11 +165,24 @@
     /* Actions: search their site (or Google-scoped), plus their front page. */
     const actions = el('div', 'actions');
     const built = buildSearchUrl(supplier, term, preferGoogle);
-    const searchLink = el('a', 'btn', term ? `Search ${supplier.name}` : `Visit ${supplier.name}`);
-    searchLink.href = built.url;
-    searchLink.target = '_blank';
-    searchLink.rel = 'noopener noreferrer';
-    actions.appendChild(searchLink);
+    /* Don't offer to "search" a supplier who has nothing to search. */
+    if (built.via !== 'no-search') {
+      const searchLabel = built.via === 'ebay-seller'
+        ? `Search their eBay shop`
+        : (term ? `Search ${supplier.name}` : `Visit ${supplier.name}`);
+      const searchLink = el('a', 'btn', searchLabel);
+      searchLink.href = built.url;
+      searchLink.target = '_blank';
+      searchLink.rel = 'noopener noreferrer';
+      actions.appendChild(searchLink);
+    }
+
+    /* Phone and email come first for a supplier you can only ring. */
+    contactLinks(supplier).forEach((c, i) => {
+      const link = el('a', 'btn' + (built.via === 'no-search' && i === 0 ? '' : ' secondary'), c.label);
+      link.href = c.href;
+      actions.appendChild(link);
+    });
 
     const home = el('a', 'btn secondary', 'Front page');
     home.href = supplier.url;
@@ -182,6 +195,8 @@
       google: 'via Google site search',
       'google-unverified': 'via Google — their search URL isn’t confirmed',
       home: 'no search term yet',
+      'ebay-seller': 'their own site has no search — this looks through their eBay stock',
+      'no-search': 'no online catalogue — ring or email with what you need',
     }[built.via];
     actions.appendChild(el('span', 'via', viaText));
     card.appendChild(actions);
